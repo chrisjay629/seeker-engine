@@ -1,206 +1,171 @@
 # Seeker
 
-A persistent AI investigation engine built to ask better questions than a human researcher would,
-reach knowledge that is locked or scattered, connect dots no one has connected before, and free what
-it finds for the commons.
+**A persistent AI investigation engine — and an honest account of everything that broke while building it.**
 
-Built by Christopher Jauregui — a bartender learning to code — with Claude.
+I'm a bartender learning to code. I built this with Claude over 30 days (2026-06-30 to 2026-07-30). This README leads
+with what I was trying to do, how it failed, and what I actually got right — the failures are the
+longer section on purpose.
 
-**Read the [honest status](#honest-status) before the architecture.** This repo is public so the
-failures are public too. I plan to rebuild it, and the account below is what the rebuild should
-start from.
+Everything below is verifiable in the code and in [`published/`](published/).
 
-## The Governing Spine
+---
+
+## What I was attempting
+
+Most research tools answer questions that have answers. I wanted one for the questions that don't:
+open cases, contested claims, clusters of events that may or may not be related.
+
+The bar was specific and falsifiable: **return more valuable, connected information than you'd get
+elsewhere for the same question, and be honest about what you don't know.** Not "solve it."
+
+The design rule was one line, and I violated it constantly without noticing:
 
 > **The model never judges its own quality. Verification always comes from outside.**
 
-Every design choice traces back to this. It is also the principle I violated most often without
-noticing — see [what went wrong](#what-went-wrong-and-what-it-cost).
-
-## Architecture — Three Organs
-
-- **The Seeker** — mechanical & cheap. Goes out, reads sources, returns a finding plus its citation.
-  Skims cheap, deep-reads only survivors.
-- **The Memory** — external, always-on, cheap. Files, stores, labels, indexes, retrieves. Never thinks.
-- **The Mind** — the only part that thinks. All comprehension happens here, so cost is concentrated
-  in one place.
-
-Around that spine sit the analysis organs (synthesis, claim ledger, connections, disagreement map,
-competing-hypotheses scoring, pattern adjudication, per-person profiles) and the gates (question
-quality, an adversarial Challenger, identity/namesake checks, voice, fidelity, and a
-publisher-reviewer that can refuse to publish).
-
-One finished investigation is in [`published/`](published/).
-
 ---
 
-## What went wrong, and what it cost
+## How it failed
 
-This is the useful part.
+### It read 4% of its own evidence
 
-### Everything read a fraction of what it gathered
+A run gathered 677 findings. The conclusion was written from **28** of them.
 
-The worst bug in the project, found late by asking a plain question: *is the model actually
-reviewing all the data?*
+The cause was `rows[:14]` inside one function — a constant chosen once and never revisited. 177
+findings were never read by *anything*, including a fact about the central subject carrying 15
+corroborating sources. It was never a size limit; the full set is ~24k tokens.
 
-It wasn't. A run gathered 677 findings. Then:
+The same shape turned up in **six** organs: the ledger deciding what counted as "verified" from 14%
+of the evidence, the pattern adjudicator answering the case's central question from 21%, the
+question generator seeing 14 findings about a person who had 68.
 
-| stage | findings it saw |
-|---|---|
-| retrieved by any organ | 500 |
-| **placed in the synthesis prompt** | **28** |
-
-**The conclusion of an entire investigation was written from 4% of the evidence.** The cause was
-`rows[:14]` inside one function — a number chosen once and never revisited. 177 findings were never
-read by anything at all, including a fact about the central subject carrying 15 corroborating
-sources.
-
-It was never a size limit. All 677 findings are about 24k tokens.
-
-The same shape appeared **six times** in different organs: the claim ledger deciding what counted as
-"verified" from 14% of the evidence; the pattern adjudicator answering the case's central question
-from 21%; the question generator seeing 14 findings about a person who had 68.
-
-**Lesson:** a constant like `[:14]` is a design decision disguised as a detail. Sitting between your
-evidence and your model, it is the most important line in the file.
+**What I'd take from it:** a constant like `[:14]` is a design decision wearing a detail's clothes.
+Sitting between your evidence and your model, it's the most consequential line in the file.
 
 ### A name is not an identity
 
-Searching "Matthew James Sullivan" returned Sullivan County, Tennessee. Searching "Steven Garcia"
-returned Christian, Melanie, Jonathan and Jose Ernesto Garcia. Of 705 findings reviewed, **254 were
-about different people who happened to share a surname.**
+"Matthew James Sullivan" returned Sullivan County, Tennessee. "Steven Garcia" returned Christian,
+Melanie, Jonathan and Jose Ernesto Garcia. **254 of 705 findings were about different people who
+happened to share a surname.**
 
-It fed a loop: the depth-equalizer saw a thin file, spent extra searches filling it, pulled in more
-namesakes, counted them as depth, and concluded the gap had closed. The organ built to give cold
-cases *more* attention was poisoning them.
+It compounded: the component that gives thin cases extra attention saw a sparse file, searched
+harder, pulled in more namesakes, counted them as depth, and declared the gap closed. The organ
+built to help cold cases was poisoning them.
 
-**Lesson:** the fix that worked wasn't a better prompt. It was arithmetic — a claim dating a death
-to 2013 cannot describe someone known to have died in 2025.
+**What fixed it wasn't a better prompt.** It was arithmetic — a claim dating a death to 2013 cannot
+describe someone known to have died in 2025.
 
-### Prose is advisory. Code is binding.
+### Prose is advisory; code is binding
 
-The most repeated failure here. Every rule written as an instruction to a model was eventually
+The most repeated mistake here. Every rule written as an instruction to a model was eventually
 ignored:
 
-- A paragraph telling the writer to disregard same-named strangers → failed three times. A
-  year-arithmetic check caught them immediately.
-- A prompt banning atmospheric language → the next draft opened with *"The hum that usually precedes
-  the morning's frantic pace."* A regex ban list caught it.
-- A rule that questions be specific → 63 commits of prompt-tuning. One `bad_question()` function
-  caught 40 of 40 instantly.
+| rule as prose | outcome | rule as code | outcome |
+|---|---|---|---|
+| "disregard same-named strangers" | failed 3× | year-conflict arithmetic | caught immediately |
+| "no atmospheric language" | next draft opened *"The hum that usually precedes the morning's frantic pace"* | regex ban list | caught immediately |
+| "ask specific questions" | 63 commits of prompt-tuning | one `bad_question()` function | caught 40 of 40 |
 
-**Lesson:** if a rule matters, make it a check that can fail.
+### "Built" kept registering as "wired"
 
-### Built ≠ wired
+Nine capabilities were once found to have never run in production. I wrote a test to stop it
+recurring — then it recurred three more times in two days, including the pipeline that produced the
+first report to pass every check, which sat *beside* the run instead of inside it.
 
-Nine capabilities were once found to have never fired in a real run. A test was written to prevent
-recurrence — and it happened three more times in two days, including the write-up pipeline that
-produced the first report to pass every gate, which sat *beside* the run instead of in it.
+The test only failed when a function was called *nowhere at all* — including from its own test file.
+So "tested" satisfied it.
 
-The test only failed when a function was called *nowhere*, including from its own test file. So
-"tested" registered as "wired."
+### Editing an edit destroys the work
 
-**Lesson:** integration must be asserted explicitly, in the same commit as the build. A green suite
-is only as honest as what it checks.
+A report failed review, so I revised it. The revision failed differently, so I revised again. Eight
+passes. The error count fell 6 → 3 → 2, which looked like convergence.
 
-### Editing an edit destroys the artifact
+The finished document said "Status: Not recorded" for 11 of 13 people whose causes of death were
+sitting in the same file. Each pass had quietly deleted true content it couldn't re-verify.
 
-A report failed its reviewer, so it was revised. The revision failed differently, so it was revised
-again. Eight passes. Flag counts fell 6 → 3 → 2, which read as convergence.
+**A falling error count is not improving quality.** One corrective pass, then regenerate from source.
 
-The finished artifact said "Status: Not recorded" for 11 of 13 people whose documented causes were
-in the same file. Each pass was re-verified against a retrieval slice, and each quietly deleted true
-content it couldn't re-find.
+### Judging by a proxy instead of the thing itself
 
-**Lesson:** a falling error count is not improving quality. Check the substance after every pass.
-One corrective pass maximum, then regenerate from source.
+Four times in one day, in four disguises:
 
-### Judging by a proxy instead of the property
-
-Made four times in one day, in four costumes:
-
-- Ranked citations by domain authority → an FBI cocaine-trafficking press release nearly went into
-  a report about missing scientists. Authoritative domain, irrelevant document.
+- Ranked citations by domain authority → an FBI cocaine-trafficking press release nearly landed in a
+  report about missing scientists. Authoritative domain, irrelevant document.
 - Counted surname matches as evidence "depth" → contamination read as progress.
-- Checked "was this supported?" instead of "is this still here?" → a hollowed-out report passed
-  eight gates.
+- Checked "is this supported?" instead of "is this still here?" → a hollowed-out report passed eight
+  gates.
 - Named a folder `published/` and called the work published. It was a private repo.
 
-**Lesson:** measure the thing you care about, not the thing that correlates with it.
+---
+
+## What I got right
+
+**I asked the questions that found the bugs.** This is the part I'd most want read closely, because
+I didn't write most of this code — I'm the one who kept asking why it wasn't working:
+
+- *"Is the model reviewing 100% of the data in each organ?"* → found five more truncations after the
+  first was fixed.
+- *"If we're leaving data in the nodes and not reviewing it, what's the point of gathering it?"* →
+  found that 26% of everything gathered was never read by anything.
+- *"Did we ship anything yet?"* → caught a private repo being described as published.
+- *"The questions are not good at all"* — repeated three times against reassurance → led to finding
+  that three of four question generators couldn't see the research findings at all.
+
+Each was a general question that turned one fix into five. The specific bugs mattered less than
+noticing they were the *same* bug wearing different clothes.
+
+**Two design calls that worked.** Compressing all evidence about one person into a single reviewable
+case file — a container, not a summary, so triage happens inside it and nothing is lost to
+compression. And using a competitor as a *contributor* rather than a *judge*: a judge caps you at
+the judge's ceiling; a contributor only adds.
+
+**Measured against something I didn't build.** Benchmarked against Perplexity's best research model,
+scoring fixed before results were seen. Across six people spot-checked by hand, Perplexity surfaced
+nothing this system's map didn't already hold, and independently corroborated every claim checked.
+
+**Gates that can say no.** The publisher-reviewer refused four consecutive reports. It was right
+every time.
 
 ---
 
-## What worked
+## What still doesn't work
 
-- **The research engine.** A hard 13-person investigation produced 677 sourced findings across five
-  source types. Benchmarked against Perplexity's best research model: across the six people
-  spot-checked by hand, **Perplexity surfaced nothing Seeker's map did not already hold**, and
-  independently corroborated every Seeker claim checked. (Six of thirteen — not the whole roster.
-  Stated narrowly on purpose.)
-- **Deterministic gates.** Every check that actually caught something was arithmetic or a regex —
-  never a model asked to be careful.
-- **A reviewer that can say no.** It refused four consecutive reports. Correct each time.
-- **Case-file triage.** Grouping findings per person with a recorded verdict made full review
-  affordable and isolated contamination automatically.
+- **Speed.** ~90 minutes per investigation. Perplexity's mid-tier model matched its *coverage* in 23
+  seconds. Depth and provenance are the edge — but 230× is not free.
+- **Discovery.** It was handed its 13 subjects. It has never assembled a roster unaided.
+- **Determinism.** The connections engine returns 5–7 links on identical input. I read differences as
+  signal more than once before checking.
+- **Size.** 11,334 lines across 65 modules; 234 commits, 57 of them repairs (24%). The recurring
+  bugs are a symptom of a system too large to hold in one head.
 
-## What did not work
+## Status
 
-- **Speed.** ~90 minutes per investigation. Perplexity's `sonar-pro` matched Seeker's *coverage* in
-  23 seconds. Seeker's edge is depth and provenance — but 230× is not free.
-- **Discovery from scratch.** Seeker was handed its 13 names. It has never demonstrated assembling a
-  roster unaided. (Perplexity, asked the same question without names, found 6 of 13.)
-- **Determinism.** The connections engine returns 5–7 links on identical input. Counts are soft, and
-  I over-read differences as signal more than once.
-- **Complexity.** ~10,000 lines across 59 modules; 216 commits, a quarter of them repairs. The
-  recurring bugs are a symptom of a system too large to hold in one head.
+One investigation has passed every check and is in [`published/`](published/) — 13 people, 37
+relevance-checked citations. It required **no new searching**: the evidence had been gathered days
+earlier and simply never read.
 
-## Honest status
-
-**Working:** the engine gathers well; identity checks hold; every organ now reads 100% of the
-evidence; one investigation has passed every gate and been approved for publication.
-
-**Not working:** it is slow, larger than it needs to be, and the same class of bug keeps reappearing
-somewhere new. The reporting layer was rebuilt once and still needed three mechanical fixes after.
-
-**Next:** a rebuild starting from these notes. The engine is worth keeping. The ~7,000 lines of
-analysis-and-reporting scaffolding around it is where every recurring defect has lived.
-
-On the original Phase 1 exit criteria: *"The engine feels like it's working is not an exit criterion.
-External ground truth plus demonstrated failure recovery is."* The Perplexity benchmark is the
-external ground truth. This README is the failure recovery, published rather than buried.
+I'm rebuilding from these notes. The retrieval engine is worth keeping; the ~7,000 lines of analysis
+scaffolding around it is where every recurring defect has lived.
 
 ---
 
-## Tech stack (as actually built)
+## Stack
 
-| Layer | Tool |
-|---|---|
-| Search + fetch (primary) | Firecrawl |
-| Search + fetch (fallback) | Exa, Jina |
-| Vector store | Pinecone |
-| Embeddings | Jina v3 (1024-d) |
-| Mind / analysis | OpenRouter (multi-model), Groq for speed |
-| Spoken word | youtube-transcript-api, Podcast Index |
-| Scholarly | OpenAlex |
-
-*Earlier plans named LangGraph and n8n as the orchestrator and Exa as primary search. The working
-system uses a direct Python director and Firecrawl-first retrieval; the loop-mode graph exists but
-is not the flagship path. Documented here because a stale stack table is its own small lie.*
-
-## Running it
+Firecrawl (primary search/fetch) · Exa + Jina (fallback) · Pinecone (vector store) · Jina v3
+embeddings · OpenRouter multi-model + Groq · OpenAlex (citation graph) · YouTube transcripts +
+Podcast Index
 
 ```bash
-cp .env.example .env      # add your own keys
+cp .env.example .env      # your own keys
 pip install -r requirements.txt
-.venv/bin/python tests/test_wiring.py      # asserts every organ actually fires
+python tests/test_wiring.py     # asserts every organ actually fires in a real run
 ```
 
 ## A note on the case in `published/`
 
 It concerns real people who are missing or dead. Every claim is tied to a source, unverified
 material is labelled unverified, and the report states plainly that a coordination claim circulates
-and is unproven. That sentence caused the reviewer to withhold approval; it was kept deliberately,
-because cutting it would satisfy the gate and tell the reader less. The disagreement is recorded
-rather than edited away.
+and is unproven. That sentence caused the reviewer to withhold approval; I kept it, because removing
+it would satisfy the gate and tell the reader less. The disagreement is recorded rather than edited
+away.
 
 Nothing in it should be read as an accusation against any person.

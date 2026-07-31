@@ -22,7 +22,10 @@ import requests
 from .. import config
 
 _API = "https://api.openalex.org"
-_MAILTO = "chrisjay629@gmail.com"           # polite-pool identifier (public contact, not a secret)
+import os as _os
+# OpenAlex asks for a contact address to put you in its "polite pool" (higher rate limits).
+# Read from env rather than hardcoded: not a secret, but a public repo is a scraping surface.
+_MAILTO = _os.environ.get("OPENALEX_MAILTO", "")
 _DOI_RE = re.compile(r"10\.\d{4,9}/[^\s\"'&?#]+", re.I)
 
 
