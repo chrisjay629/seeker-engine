@@ -2,11 +2,14 @@
 
 **A persistent AI investigation engine — and an honest account of everything that broke while building it.**
 
-I'm a bartender learning to code. I built this with Claude over 30 days (2026-06-30 to 2026-07-30). This README leads
-with what I was trying to do, how it failed, and what I actually got right — the failures are the
-longer section on purpose.
-
+Built with Claude over 30 days (2026-06-30 to 2026-07-30). This README leads with what I was trying
+to do, how it failed, and what I actually got right — the failures are the longer section on purpose.
 Everything below is verifiable in the code and in [`published/`](published/).
+
+One thing up front, because it changes what's worth evaluating here: I tend bar, I'm learning to
+code, and I didn't write most of this code. What I did was decide what to build, and keep asking why
+it wasn't working until the real reasons surfaced. The [what I got right](#what-i-got-right) section
+is about that, and it's the part I'd want read closely.
 
 ---
 
