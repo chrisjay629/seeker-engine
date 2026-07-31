@@ -6,10 +6,11 @@ Built with Claude over 30 days (2026-06-30 to 2026-07-30). This README leads wit
 to do, how it failed, and what I actually got right — the failures are the longer section on purpose.
 Everything below is verifiable in the code and in [`published/`](published/).
 
-One thing up front, because it changes what's worth evaluating here: I tend bar, I'm learning to
-code, and I didn't write most of this code. What I did was decide what to build, and keep asking why
-it wasn't working until the real reasons surfaced. The [what I got right](#what-i-got-right) section
-is about that, and it's the part I'd want read closely.
+One thing up front, because it changes what's worth evaluating here: I'm not a professional software
+engineer, and I didn't write most of this code. What I did was decide what to build, set the
+standards it had to meet, and keep asking why it wasn't working until the real reasons surfaced. The
+[what I got right](#what-i-got-right) section is about that, and it's the part I'd want read
+closely.
 
 ---
 
