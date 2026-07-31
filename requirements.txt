@@ -1,0 +1,5 @@
+# Seeker Phase 1 — Recon Pass dependencies
+requests>=2.32
+exa-py>=2.14
+youtube-transcript-api>=1.0
+psycopg[binary]>=3.2

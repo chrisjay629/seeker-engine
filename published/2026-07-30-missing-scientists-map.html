@@ -1,0 +1,128 @@
+<!doctype html><meta charset='utf-8'><title>Seeker map</title><style>
+:root{--ink:#0E1116;--panel:#161B22;--panel2:#1C2430;--line:#26303F;--text:#E7ECF3;--muted:#8B98AB;
+--faint:#5E6B7E;--signal:#E0A22E;--ok:#3FB37F;--warn:#E0A22E;--bad:#E0574B;--blue:#5B8DEF;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:"Iowan Old Style",Palatino,Georgia,serif;}
+:root[data-theme="light"]{--ink:#F3F1EA;--panel:#FBFAF6;--panel2:#F0EDE3;--line:#D9D4C6;--text:#1A1D22;
+--muted:#5C6470;--faint:#8A8577;--blue:#2C5FC7;}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--ink:#F3F1EA;--panel:#FBFAF6;
+--panel2:#F0EDE3;--line:#D9D4C6;--text:#1A1D22;--muted:#5C6470;--faint:#8A8577;--blue:#2C5FC7;}}
+*{box-sizing:border-box}body{margin:0}
+.wrap{background:var(--ink);color:var(--text);font-family:var(--sans);line-height:1.65;padding:0 0 4rem;-webkit-font-smoothing:antialiased}
+.inner{max-width:820px;margin:0 auto;padding:0 24px}
+h1,h2{font-weight:600;margin:0;text-wrap:balance}
+header{border-bottom:1px solid var(--line);padding:2.4rem 0 1.6rem;margin-bottom:1.8rem}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--signal)}
+h1.t{font-size:clamp(26px,5vw,40px);line-height:1.1;margin-top:.7rem}
+.report{font-family:var(--serif);font-size:18px;line-height:1.7;white-space:pre-wrap;margin:1.5rem 0}
+section{margin:2.4rem 0}
+.sh{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1rem}
+.row{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 13px;margin-bottom:7px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.row .m{font-size:14px}.row .tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.ok{color:var(--ok);border:1px solid var(--ok)}.warn{color:var(--warn);border:1px solid var(--warn)}
+.bad{color:var(--bad);border:1px solid var(--bad)}.blue{color:var(--blue);border:1px solid var(--blue)}
+.thread{font-size:13.5px;color:var(--text);padding-left:16px;position:relative;margin:5px 0}
+.thread::before{content:"?";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+.conn{font-size:13.5px;margin:5px 0}.conn .e{color:var(--blue)}
+footer{border-top:1px solid var(--line);margin-top:2.5rem;padding-top:1.4rem;font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.7}
+.led{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.led .d{color:var(--bad)}.led .a{color:var(--faint)}
+.prof{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 14px;margin-bottom:8px}
+.prof-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}.prof-h .m{font-size:14.5px;font-weight:600}
+.prof-h .e{color:var(--muted);font-size:12.5px}
+.prof-d{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.55}
+</style>
+<div class="wrap"><div class="inner">
+<header><div class="eyebrow">Seeker // Investigation Map</div><h1 class="t">Investigation</h1></header>
+<div class="report">**WIRE-SERVICE DOSSIER: 2026 &#x27;MISSING SCIENTISTS&#x27; CASES**
+
+Authorities are reviewing the cases of nine deceased and four missing individuals, totaling 13 people associated with scientific and national security work, following public awareness of their disappearances and deaths.
+
+**William Neil McCasland:** William Neil McCasland, retired US Air Force major general and former commander of the Air Force Research Laboratory, STATUS: missing; he disappeared from his Albuquerque, NM home on February 27, 2025, leaving behind electronic devices but taking hiking boots, a revolver, wallet, and red backpack.
+
+**Monica Jacinto Reza:** Monica Jacinto Reza, NASA-affiliated rocket engineer and materials scientist, STATUS: missing; she vanished while hiking in the Angeles National Forest, California, on June 22, 2025, with only a beanie found below the trail.
+
+**Anthony Chavez:** Anthony Chavez, retired Los Alamos National Laboratory foreman, STATUS: missing; he went missing in May 2025 after leaving his home in New Mexico, leaving personal belongings and vehicle behind.
+
+**Steven Garcia:** Steven Garcia, contractor for the National Nuclear Security Administration and property custodian at Kansas City National Security Campus in Albuquerque, STATUS: missing; he was last seen leaving his home on August 28, 2025, carrying only a handgun.
+
+**Carl Grillmair:** Carl Johann Grillmair, Caltech/IPAC astrophysicist, STATUS: deceased; CAUSE: homicide (gunshot); he was found shot dead on his front porch in Llano, Los Angeles County, on February 16, 2026.
+
+**Nuno Loureiro:** Nuno F. Loureiro, director of the MIT Plasma Science and Fusion Center, STATUS: deceased; CAUSE: homicide (gunshot); he was shot dead at his home in Brookline, Massachusetts, in December 2025.
+
+**Jason Thomas:** Jason R. Thomas, assistant director of chemical biology at Novartis, STATUS: deceased; CAUSE: drowning; his body was recovered from ice-thawed Lake Quannapowitt, Wakefield, MA, in March 2026, following his disappearance and recent mental health struggles.
+
+**Melissa Casias:** Melissa Casias, Los Alamos National Laboratory employee, STATUS: deceased; CAUSE: gunshot wound (undetermined manner); her remains were found in Carson National Forest with a gunshot wound to the skull; a handgun was found nearby.
+
+**Frank Maiwald:** Frank Werner Maiwald, NASA Jet Propulsion Laboratory technical leader, STATUS: deceased; CAUSE: no cause documented in available records; he died in July 2024 with no autopsy performed and no public disclosure of a cause of death.
+
+**Michael David Hicks:** Michael David Hicks, NASA Jet Propulsion Laboratory research scientist, STATUS: deceased; CAUSE: arteriosclerotic cardiovascular disease with morbid obesity; he died on July 30, 2023, in Sunland, California.
+
+**Matthew James Sullivan:** Matthew James Sullivan, Air Force veteran and whistleblower, STATUS: deceased; CAUSE: no cause documented in available records; he died on May 12, 2024, at his home in Falls Church, Virginia, from a lethal combination, with the case under investigation for possible misconduct or unlawful activity.
+
+**Amy Eskridge:** Amy Eskridge, researcher focusing on experimental propulsion and gravity modification, STATUS: deceased; CAUSE: suicide (gunshot wound); she died by self-inflicted gunshot wound on June 11, 2022.
+
+**Joshua LeBlanc:** Joshua LeBlanc, electrical engineer at NASA Marshall Space Flight Center, STATUS: deceased; CAUSE: traffic accident (car fire); his body was recovered from the burnt wreckage of his Tesla near Huntsville, Alabama, on July 22.
+
+**PATTERN**
+
+Records show that several deaths have documented, unrelated causes: Michael David Hicks died of arteriosclerotic cardiovascular disease with morbid obesity, Amy Eskridge died by suicide, and Joshua LeBlanc died in a traffic accident. Two cases, Carl Grillmair and Nuno Loureiro, are prosecuted homicides. The death of Melissa Casias involved a gunshot wound, but authorities have not officially determined the manner of death. Frank Maiwald and Matthew James Sullivan died without publicly disclosed causes. Four individuals remain missing: William Neil McCasland, Monica Jacinto Reza, Anthony Chavez, and Steven Garcia. Authorities have not found evidence of a systemic threat. A claim circulates that these cases are linked by a coordinated pattern of targeting; however, this claim is unproven.</div>
+<section><div class="sh">Entities investigated</div>
+<div class="prof"><div class="prof-h"><span class="m">William Neil McCasland</span><span class="tag warn">MISSING</span></div><div class="prof-d">William Neil McCasland, 68, retired US Air Force major general and former commander of the Air Force Research Laboratory, disappeared from his Albuquerque, NM home on February 27, 2025, leaving behind electronic devices, but taking hiking boots, a revolver, wallet, and red backpack; no evidence of foul play or confirmed sightings have been reported, and extensive search efforts by local and federal agencies remain ongoing.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Monica Jacinto Reza</span><span class="tag warn">MISSING</span></div><div class="prof-d">Monica Jacinto Reza, NASA-affiliated rocket engineer and materials scientist specializing in advanced alloys for AFRL and NASA, vanished while hiking in the Angeles National Forest, California, on June 22, 2025; she was last seen on Mount Waterman, with only a beanie found below the trail and no confirmed whereabouts since.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Anthony Chavez</span><span class="tag warn">MISSING</span></div><div class="prof-d">Anthony Chavez, 78, retired Los Alamos National Laboratory foreman, went missing in May 2025 after leaving his home in New Mexico, leaving personal belongings and vehicle behind; law enforcement conducted searches with no confirmed findings or evidence of abduction, and his case remains open.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Steven Garcia</span><span class="tag warn">MISSING</span></div><div class="prof-d">Steven Garcia, contractor for the National Nuclear Security Administration and property custodian at Kansas City National Security Campus in Albuquerque, was last seen leaving his home on August 28, 2025, carrying only a handgun; despite reports of prior convictions and possible legal issues, his current whereabouts are unknown and no official status or cause has been confirmed.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Carl Grillmair</span><span class="tag bad">DECEASED</span><span class="e"> · homicide (gunshot)</span></div><div class="prof-d">Carl Johann Grillmair, 67, Caltech/IPAC astrophysicist known for galactic structure and NASA NEOWISE projects, was found shot dead on his front porch in Llano, Los Angeles County, on February 16, 2026; law enforcement is prosecuting the case as homicide, with no established motive as of reporting.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Nuno Loureiro</span><span class="tag bad">DECEASED</span><span class="e"> · homicide (gunshot)</span></div><div class="prof-d">Nuno F. Loureiro, director of the MIT Plasma Science and Fusion Center and leading fusion physicist, was shot dead at his home in Brookline, Massachusetts, in December 2025; local police and federal authorities are investigating the case as a homicide.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Jason Thomas</span><span class="tag bad">DECEASED</span><span class="e"> · drowning</span></div><div class="prof-d">Jason R. Thomas, assistant director of chemical biology at Novartis, engaged in pharmaceutical and defense-adjacent biomedical research, was found dead after his body was recovered from ice-thawed Lake Quannapowitt, Wakefield, MA, in March 2026, following his disappearance and recent mental health struggles.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Melissa Casias</span><span class="tag bad">DECEASED</span><span class="e"> · gunshot wound (undetermined manner)</span></div><div class="prof-d">Melissa Casias, Los Alamos National Laboratory employee, went missing on June 26, 2025, and her remains were found in Carson National Forest with a gunshot wound to the skull; a handgun was found nearby, but the manner of death has not yet been officially determined.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Frank Maiwald</span><span class="tag bad">DECEASED</span></div><div class="prof-d">Frank Werner Maiwald, 61, NASA Jet Propulsion Laboratory technical leader in advanced space instrumentation, died in July 2024 with no autopsy performed and no public disclosure of a cause of death.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Michael David Hicks</span><span class="tag bad">DECEASED</span><span class="e"> · arteriosclerotic cardiovascular disease with morbid obesity</span></div><div class="prof-d">Michael David Hicks, 59, NASA Jet Propulsion Laboratory research scientist specializing in asteroid and planetary defense sensing, died on July 30, 2023, in Sunland, California; the LA Medical Examiner listed arteriosclerotic cardiovascular disease with morbid obesity as the cause of death.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Matthew James Sullivan</span><span class="tag bad">DECEASED</span></div><div class="prof-d">Matthew James Sullivan, Air Force veteran and whistleblower, died on May 12, 2024, at his home in Falls Church, Virginia, from a lethal combination (exact cause not fully specified in available findings); the case is under investigation for possible misconduct or unlawful activity by federal and Inspector General offices.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Amy Eskridge</span><span class="tag bad">DECEASED</span><span class="e"> · suicide (gunshot wound)</span></div><div class="prof-d">Amy Eskridge, researcher focusing on experimental propulsion and gravity modification, died by self-inflicted gunshot wound on June 11, 2022, at age 34; family and public statements reject conspiracy theories and describe her as having experienced a mental health crisis prior to her death.</div></div>
+<div class="prof"><div class="prof-h"><span class="m">Joshua LeBlanc</span><span class="tag bad">DECEASED</span><span class="e"> · traffic accident (car fire)</span></div><div class="prof-d">Joshua LeBlanc, 29, electrical engineer at NASA Marshall Space Flight Center, was found dead after his body was recovered from the burnt wreckage of his Tesla near Huntsville, Alabama, on July 22; authorities classified the death as a traffic accident.</div></div>
+</section>
+<section><div class="sh">Claim ledger — verdict &amp; directional lean</div>
+<div class="row"><span class="m">William Neil McCasland, retired Air Force Major General, disappeared in New Mexico in 2025/2026 and remains missing. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">The disappearance of William Neil McCasland was caused by foul play or linked to his past classified work on UFOs/UAPs. <span class="led">· lean: moderate away</span></span><span class="tag warn">UNPROVEN</span></div>
+<div class="row"><span class="m">Frank Werner Maiwald, NASA JPL technical leader, died in July 2024 under unclear circumstances. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">Amy Eskridge, a propulsion researcher, died by suicide in June 2022. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">Melissa Casias, Los Alamos National Laboratory employee, disappeared in June 2025 and was later found dead in Carson National Forest. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">The cause of Melissa Casias’s death is a homicide or involved foul play. <span class="led">· lean: —</span></span><span class="tag warn">UNPROVEN</span></div>
+<div class="row"><span class="m">Anthony Chavez, retired Los Alamos National Laboratory employee, went missing in May 2025 and remains missing. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">Steven Garcia, contractor at Kansas City National Security Campus, went missing in 2025 and has not been located. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">Joshua LeBlanc, NASA Marshall engineer, died in July 2026 in a suspicious or unusual accident. <span class="led">· lean: —</span></span><span class="tag warn">UNPROVEN</span></div>
+<div class="row"><span class="m">Jason R. Thomas, Novartis assistant director, died in March 2026, body found in Lake Quannapowitt. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">Carl Johann Grillmair, Caltech astronomer, was shot dead on his porch on February 16, 2026. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">Nuno F. Loureiro, MIT fusion physicist, was shot dead at his Brookline, MA home in December 2025. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">Monica Jacinto Reza, NASA/Air Force rocket engineer, disappeared while hiking in Angeles National Forest, California on June 22, 2025. <span class="led">· lean: strong toward</span></span><span class="tag ok">VERIFIED</span></div>
+<div class="row"><span class="m">There is a genuine coordinated pattern (a conspiracy, targeted killing, or organized disappearance) connecting these cases, beyond a cluster of unrelated deaths and disappearances. <span class="led">· lean: —</span></span><span class="tag warn">UNPROVEN</span></div>
+</section>
+<section><div class="sh">Connections — Seeker's own cross-entity analysis</div>
+<div class="conn"><span class="e">↔ Frank Werner Maiwald, Michael David Hicks</span> — Direct work relationship at NASA Jet Propulsion Laboratory (JPL)</div>
+<div class="conn"><span class="e">↔ William Neil McCasland, Monica Jacinto Reza</span> — Direct supervisory/management relationship at Air Force Research Laboratory (AFRL)</div>
+<div class="conn"><span class="e">↔ Monica Jacinto Reza, NASA, AFRL</span> — Shared specific research program: Mondaloy (nickel-based superalloy) for advanced U.S. rocket engines, researched by AFRL and NASA</div>
+<div class="conn"><span class="e">↔ Michael David Hicks, Carl Johann Grillmair</span> — Research in adjacent, coordinated NASA planetary defense/NEO detection programs (DART/NEAT for Hicks at JPL, NEOWISE/NEO Surveyor for Grillmair at Caltech/IPAC)</div>
+<div class="conn"><span class="e">↔ Frank Werner Maiwald, Carl Johann Grillmair</span> — Shared research subject: Advanced remote sensing/instrumentation for Earth/space observation with dual-use ISR/missile surveillance applications; their JPL programs had tracking/technology parallels</div>
+<div class="conn"><span class="e">↔ Melissa Casias, Anthony Chavez</span> — Shared physical workplace: Both were employees at Los Alamos National Laboratory (LANL)</div>
+<div class="conn"><span class="e">↔ Nuno F. Loureiro, MIT Plasma Science and Fusion Center</span> — Directorial role—he was the director at the time of his death</div>
+<div class="conn" style="color:var(--muted)">✗ Amy Eskridge and any other named scientist: checked, no shared specific employer, documented project, or narrow research subject found. Her only apparent scientific roles were with private/startup entities not directly connected to the major labs/agencies or specific government programs under review.</div>
+<div class="conn" style="color:var(--muted)">✗ Joshua LeBlanc and any other named scientist: checked, no documented shared project, program, employer, or direct research subject overlap other than broad field of nuclear propulsion/aerospace at NASA. His project at Marshall Space Flight Center is distinct from the JPL/Caltech, Los Alamos, and KCNSC cases.</div>
+<div class="conn" style="color:var(--muted)">✗ Jason R. Thomas and any other named scientist: checked, no documented shared institution, project, or narrow research subject (his work is in pharmaceutical/biomedical, not nuclear/aerospace/space physics).</div>
+<div class="conn" style="color:var(--muted)">✗ Steven Garcia and any scientist: checked, no evidence of shared research subject, project, or employment with other listed scientists. His role at KCNSC was property custodian, with no documented programmatic overlap.</div>
+</section>
+<section><div class="sh">Claimed patterns — who says they found a pattern, and does it hold up?</div>
+<div class="row"><span class="m">A coordinated campaign (conspiracy, targeted killing, or organized disappearance) is causing the deaths or disappearances of U.S. scientists with nuclear, space, or defense connections 2022–2026.</span><span class="tag warn">UNRESOLVED-NOTABLE</span></div>
+<div class="conn" style="color:var(--muted)">claimed by: Podcast &#x27;Limitations on Nature&#x27; (medium), Podcast &#x27;The Silence Pattern&#x27; (medium), House Oversight Committee (high)</div>
+<div class="conn">• <b>supported</b> — More than 8 named researchers and officials tied to major US defense/nuclear/space institutions (JPL, NASA, Los Alamos, AFRL, Caltech, MIT, KCNSC) have died or gone missing since 2022.</div>
+<div class="conn">• <b>supported</b> — Several of the cases feature unusual or unexplained elements: unexplained disappearances, no obvious accident or natural cause, deaths ruled homicide, mysterious circumstances.</div>
+<div class="conn">• <b>supported</b> — Multiple individuals are directly linked through work connections, shared programs, or subject matter (e.g., JPL/NASA planetary defense, Los Alamos, AFRL/NASA rocket alloys).</div>
+<div class="conn">• <b>unverified</b> — The cluster is non-random: the timing and nature of these disappearances/deaths cannot be explained by ordinary accident/illness statistics.</div>
+<div class="conn">• <b>supported</b> — At least one case (Carl Grillmair) was a confirmed homicide; others have suspicious, unresolved, or undetermined causes or remain missing.</div>
+<div class="conn">↳ why notable: Multiple cases are directly linked by field, employer, or overlapping classified/national-security research. Several have genuinely unusual or unsolved elements, with at least two clear homicides (Grillmair, Loureiro), several ongoing disappearances (McCasland, Reza, Garcia, Chavez), and others with non-public or ambiguous causes. The involvement of Congress/FBI and explicit review for patterns at high levels, as well as multiple unexplained or suspicious circumstances and partial connections, raise the pattern above mere coincidence or internet rumor.</div>
+<div class="conn">↳ why unproven: No single case—let alone all—shows clear evidence of direct external coordination, conspiracy, or cover-up based on available records. Some deaths have natural/accidental causes or plausible (though not always fully proven) explanations; no documentary evidence of a unifying agent/plot is available. Absence of public cause-of-death info or sealed law enforcement details leave open uncertainty, but do not prove orchestration.</div>
+<div class="conn" style="color:var(--accent)">↳ touches real connective tissue: Direct, verified links between several scientists (shared programs, employers, subjects), a real cluster of deaths/missing persons, congressional/FBI/national security concern, and genuine unresolved elements in multiple cases.</div>
+<div class="conn" style="color:var(--muted)">… 4 low-credibility fringe variants folded (noise, not listed)</div>
+<div class="conn" style="color:var(--muted)">⚠ selection bias: The pattern focuses selectively on high-profile scientists in sensitive fields and excludes a comparison group of scientists from non-sensitive fields, or similarly-credentialed professionals in unrelated areas. Several listed cases (e.g., Eskridge) have no direct institutional connection and/or plausible voluntary/suicidal cause; others not included may dilute the perceived cluster.</div>
+</section>
+</div></div>
